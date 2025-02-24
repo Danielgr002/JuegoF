@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://b0ag1w03levr4"]
+
+[ext_resource type="PackedScene" uid="uid://cog71f8o6pjbu" path="res://jugador.tscn" id="1_2bewj"]
+[ext_resource type="Script" path="res://nivel.gd" id="1_cmtjl"]
+[ext_resource type="PackedScene" uid="uid://4qgtwf3my0cl" path="res://enemigo.tscn" id="2_0qds5"]
+[ext_resource type="PackedScene" uid="uid://d4hja1gkrgyr5" path="res://hub.tscn" id="4_ae8ol"]
+
+[sub_resource type="Curve2D" id="Curve2D_poql4"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 482, -1, 0, 0, 0, 0, 479, 717, 0, 0, 0, 0, 3, 719, 0, 0, 0, 0, 1, 4, 0, 0, 0, 0, 482, -1)
+}
+point_count = 5
+
+[node name="nivel" type="Node"]
+script = ExtResource("1_cmtjl")
+escena_enemigo = ExtResource("2_0qds5")
+
+[node name="jugador" parent="." instance=ExtResource("1_2bewj")]
+position = Vector2(0, 0)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(240, 360)
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_poql4")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(482, -1)
+rotation = 1.57497
+
+[node name="Timerpunt" type="Timer" parent="."]
+
+[node name="hub" parent="." instance=ExtResource("4_ae8ol")]
+
+[node name="Timerstart" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Timerpunt" to="." method="_on_timerpunt_timeout"]
+[connection signal="timeout" from="Timerstart" to="." method="_on_timerstart_timeout"]
